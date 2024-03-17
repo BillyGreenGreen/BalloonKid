@@ -33,6 +33,20 @@ public class PlayerController : MonoBehaviour
         Vector3 mousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, -10);
         mouseVectorPos = Camera.main.ScreenToWorldPoint(mousePos);
         forceVector = -(mouseVectorPos - transform.position).normalized;
+        
+        if (forceVector.x > 0.5f){
+            forceVector.x = 0.5f;
+        }
+        else if (forceVector.x < -0.5f){
+            forceVector.x = -0.5f;
+        }
+        if (forceVector.y > 0.5f){
+            forceVector.y = 0.5f;
+        }
+        else if (forceVector.y < -0.5f){
+            forceVector.y = -0.5f;
+        }
+        Debug.Log(forceVector);
         rb.AddForce(forceVector * -blowForce);
         
         //rb.AddForce(force);
