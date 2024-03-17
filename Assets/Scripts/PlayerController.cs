@@ -34,6 +34,7 @@ public class PlayerController : MonoBehaviour
         mouseVectorPos = Camera.main.ScreenToWorldPoint(mousePos);
         forceVector = -(mouseVectorPos - transform.position).normalized;
         
+        //screen constraints
         if (forceVector.x > 0.5f){
             forceVector.x = 0.5f;
         }
@@ -48,9 +49,5 @@ public class PlayerController : MonoBehaviour
         }
         Debug.Log(forceVector);
         rb.AddForce(forceVector * -blowForce);
-        
-        //rb.AddForce(force);
-
-        //rb.AddForce((Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position).normalized * 10, ForceMode.Impulse);
     }
 }
