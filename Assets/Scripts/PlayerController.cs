@@ -55,15 +55,8 @@ public class PlayerController : MonoBehaviour
         rb.AddForce(forceVector * -blowForce);
     }
 
-    void Kill(){
+    public void Kill(){
         isDying = true;
         rb.velocity = new Vector3(0, 0, 0);
-    }
-
-    private void OnTriggerEnter(Collider other) {
-        if (other.CompareTag("Enemy")){
-            Kill();
-        }
-        
     }
 }
