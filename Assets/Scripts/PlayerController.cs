@@ -6,10 +6,11 @@ using DG.Tweening;
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody rb;
-    public float upwardsForce;
+    private float upwardsForce = 10f;
     public float blowForce;
     Vector3 mouseVectorPos;
     Vector2 forceVector;
+    bool isDying = false;
 
     private void Awake() {
         rb = GetComponent<Rigidbody>();
@@ -22,11 +23,14 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        Vector3 force = new Vector3(0, upwardsForce, 0);
-        rb.velocity = force * upwardsForce * Time.deltaTime;
-        if (Input.GetMouseButton(0)){
-            Blow();
+        if (!isDying){
+            Vector3 force = new Vector3(0, upwardsForce, 0);
+            rb.velocity = force * upwardsForce * Time.deltaTime;
+            if (Input.GetMouseButton(0)){
+                Blow();
+            }
         }
+        
     }
 
     void Blow(){
@@ -47,7 +51,12 @@ public class PlayerController : MonoBehaviour
         else if (forceVector.y < -0.5f){
             forceVector.y = -0.5f;
         }
-        Debug.Log(forceVector);
+        //Debug.Log(forceVector);
         rb.AddForce(forceVector * -blowForce);
+    }
+
+    public void Kill(){
+        isDying = true;
+        rb.velocity = new Vector3(0, 0, 0);
     }
 }
