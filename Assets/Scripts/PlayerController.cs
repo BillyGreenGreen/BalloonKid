@@ -6,7 +6,7 @@ using DG.Tweening;
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody rb;
-    private float upwardsForce = 10f;
+    private float upwardsForce = 32f;
     public float blowForce;
     Vector3 mouseVectorPos;
     Vector2 forceVector;
