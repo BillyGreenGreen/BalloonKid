@@ -1,62 +1,78 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
 
 public class PlayerController : MonoBehaviour
 {
+    public float blowForce = 5000f;
     private Rigidbody rb;
-    private float upwardsForce = 32f;
-    public float blowForce;
-    Vector3 mouseVectorPos;
-    Vector2 forceVector;
     bool isDying = false;
+    public float upwardsForce = 10f;
 
-    private void Awake() {
+    private Vector3 currentVelocity;
+    private Vector3 originalUpwardsVelocity;
+    private Coroutine blowCoroutine;
+
+    void Awake()
+    {
         rb = GetComponent<Rigidbody>();
+        originalUpwardsVelocity = new Vector3(0, upwardsForce, 0) * upwardsForce;
+        currentVelocity = originalUpwardsVelocity;
     }
 
-    private void Update() {
-        
+    void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Vector3 mousePos = Input.mousePosition;
+            Vector3 screenCenter = new Vector3(Screen.width / 2f, Screen.height / 2f, 0);
+
+            // Get direction from center to mouse, then invert for opposite
+            Vector3 direction = (screenCenter - mousePos).normalized;
+            Vector3 blowVelocity = new Vector3(direction.x, direction.y, 0) * blowForce;
+
+            if (blowCoroutine != null)
+                StopCoroutine(blowCoroutine);
+
+            blowCoroutine = StartCoroutine(BlowAndReturn(blowVelocity));
+        }
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
-        if (!isDying){
-            Vector3 force = new Vector3(0, upwardsForce, 0);
-            rb.velocity = force * upwardsForce * Time.deltaTime;
-            if (Input.GetMouseButton(0)){
-                Blow();
-            }
+        if (!isDying)
+        {
+            rb.velocity = currentVelocity;
         }
-        
     }
 
-    void Blow(){
-        Vector3 mousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, -10);
-        mouseVectorPos = Camera.main.ScreenToWorldPoint(mousePos);
-        forceVector = -(mouseVectorPos - transform.position).normalized;
-        
-        //screen constraints
-        if (forceVector.x > 0.5f){
-            forceVector.x = 0.5f;
+    IEnumerator BlowAndReturn(Vector3 blowVelocity)
+    {
+        float blowDuration = 0.3f;
+        float returnDuration = 0.5f;
+        float timer = 0f;
+
+        // Set blow velocity
+        currentVelocity = blowVelocity;
+        yield return new WaitForSeconds(blowDuration);
+
+        // Smoothly return to original upwards velocity
+        Vector3 startVelocity = currentVelocity;
+        timer = 0f;
+        while (timer < returnDuration)
+        {
+            currentVelocity = Vector3.Lerp(startVelocity, originalUpwardsVelocity, timer / returnDuration);
+            timer += Time.fixedDeltaTime;
+            yield return new WaitForFixedUpdate();
         }
-        else if (forceVector.x < -0.5f){
-            forceVector.x = -0.5f;
-        }
-        if (forceVector.y > 0.5f){
-            forceVector.y = 0.5f;
-        }
-        else if (forceVector.y < -0.5f){
-            forceVector.y = -0.5f;
-        }
-        //Debug.Log(forceVector);
-        rb.AddForce(forceVector * -blowForce);
+        currentVelocity = originalUpwardsVelocity;
     }
 
-    public void Kill(){
-        isDying = true;
-        rb.velocity = new Vector3(0, 0, 0);
+    public void Kill()
+    {
+        if (!isDying)
+        {
+            isDying = true;
+            rb.velocity = Vector3.zero;
+        }
     }
 }

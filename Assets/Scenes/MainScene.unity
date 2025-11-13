@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 2159.8682, g: 2264.252, b: 3287.629, a: 1}
+  m_IndirectSpecularColor: {r: 2161.3838, g: 2265.3848, b: 3288.5469, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -631,7 +631,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ee1182487cf0ad47a28a8f86b617472, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blowForce: 400
+  blowForce: 2
+  upwardsForce: 4.5
 --- !u!1 &681568743 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -8231973590738092634, guid: 1d20ba115f8e0364d95e7ec69c0ef1c2,
@@ -980,6 +981,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Human_Fbx (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 1268651274843322094, guid: 1d20ba115f8e0364d95e7ec69c0ef1c2,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.406
+      objectReference: {fileID: 0}
     - target: {fileID: 2190637818475708215, guid: 1d20ba115f8e0364d95e7ec69c0ef1c2,
         type: 3}
       propertyPath: m_LocalRotation.w
@@ -1079,6 +1085,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 74.916
+      objectReference: {fileID: 0}
+    - target: {fileID: 8286684065680063800, guid: 1d20ba115f8e0364d95e7ec69c0ef1c2,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.442
+      objectReference: {fileID: 0}
+    - target: {fileID: 8286684065680063800, guid: 1d20ba115f8e0364d95e7ec69c0ef1c2,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1d20ba115f8e0364d95e7ec69c0ef1c2, type: 3}
@@ -1967,7 +1983,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0, y: 0, z: 0}
+  m_ConnectedAnchor: {x: 0.0000000123010935, y: 0.08202676, z: 0.000000043772157}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
